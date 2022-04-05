@@ -17,7 +17,13 @@ module.exports = {
         assetModuleFilename: 'assets/[hash][ext][query]'
     },
     resolve: {
-        extensions: ['.js'] // LOS ARCHIVOS QUE WEBPACK VA A LEER
+        extensions: ['.js'], // LOS ARCHIVOS QUE WEBPACK VA A LEER
+        alias:{
+            '@utils':path.resolve(__dirname, 'src/utils/'),
+            '@templates':path.resolve(__dirname, 'src/templates/'),
+            '@styles':path.resolve(__dirname, 'src/styles/'),
+            '@images':path.resolve(__dirname, 'src/assets/images/'),
+        }
     },
     module: {
         // REGLAS PARA TRABAJAR CON WEBPACK
@@ -52,7 +58,7 @@ module.exports = {
             name: "[name].[contenthash].[ext]",
             // outputPath => donde se va a guardar en la carpeta final
             outputPath: "./assets/fonts/",
-            publicPath: "./assets/fonts/",
+            publicPath: "../assets/fonts/",
             esModule: false,
                     },
                 }
