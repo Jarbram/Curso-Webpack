@@ -2,6 +2,8 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
     mode: 'production', // LE INDICO EL MODO EXPLICITAMENTE
@@ -10,7 +12,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         // resolve lo que hace es darnos la ruta absoluta de el S.O hasta nuestro archivo
         // para no tener conflictos entre Linux, Windows, etc
-        filename: 'main.js', 
+        filename: '[name].[contenthash].js', 
         // EL NOMBRE DEL ARCHIVO FINAL,
         assetModuleFilename: 'assets/[hash][ext][query]'
     },
@@ -47,7 +49,7 @@ module.exports = {
             // Mimetype => tipo de dato
             mimetype: "application/font-woff",
             // name => nombre de salida
-            name: "[name].[ext]",
+            name: "[name].[contenthash].[ext]",
             // outputPath => donde se va a guardar en la carpeta final
             outputPath: "./assets/fonts/",
             publicPath: "./assets/fonts/",
@@ -64,7 +66,9 @@ module.exports = {
             template: './public/index.html', // LA RUTA AL TEMPLATE HTML
             filename: './index.html' // NOMBRE FINAL DEL ARCHIVO
         }),
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: 'assets/[name].[contenthash].css'
+        }),
         new CopyPlugin({
             patterns: [
                 {
@@ -73,5 +77,12 @@ module.exports = {
                 }
             ]
                 }),
-    ]
+    ],
+    optimization: {
+        minimize: true,
+        minimizer:[
+            new CssMinimizerPlugin(),
+            new TerserPlugin(),
+        ]
+    }
 }
