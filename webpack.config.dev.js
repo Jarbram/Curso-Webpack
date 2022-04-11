@@ -17,7 +17,7 @@ module.exports = {
         assetModuleFilename: 'assets/[hash][ext][query]'
     },
     mode:'development',
-    devtool: 'source-map',
+    devtool: "source-map",
     resolve: {
         extensions: ['.js'], // LOS ARCHIVOS QUE WEBPACK VA A LEER
         alias:{
